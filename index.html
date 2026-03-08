@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RapidFlow Plumbing | Melbourne's Smart Plumbing Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg-deep: #060810;
+    --bg-panel: #0d1117;
+    --bg-card: #111827;
+    --accent-cyan: #00e5ff;
+    --accent-blue: #3b82f6;
+    --accent-glow: rgba(0,229,255,0.15);
+    --text-primary: #f0f4f8;
+    --text-secondary: #8899aa;
+    --text-muted: #4a5568;
+    --border: rgba(0,229,255,0.12);
+    --border-bright: rgba(0,229,255,0.35);
+    --gradient-hero: linear-gradient(135deg, #060810 0%, #0a1628 50%, #060c18 100%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+  /* ─── GRID OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(6,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  nav.scrolled { border-bottom-color: var(--border-bright); }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,229,255,0.4);
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-text span { color: var(--accent-cyan); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent-cyan); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    color: #fff !important;
+    padding: 9px 22px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    box-shadow: 0 0 20px rgba(0,229,255,0.25);
+    transition: box-shadow 0.3s, transform 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    color: #fff !important;
+    box-shadow: 0 0 35px rgba(0,229,255,0.5) !important;
+    transform: translateY(-1px);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 5% 80px;
+    overflow: hidden;
+    background: var(--gradient-hero);
+  }
+
+  .hero-bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    animation: pulse-orb 8s ease-in-out infinite;
+  }
+
+  .orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+    bottom: 50px; left: -80px;
+    animation: pulse-orb 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse-orb {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 680px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid var(--border-bright);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent-cyan);
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+    animation: fade-up 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 7px; height: 7px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-cyan);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1.hero-title {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    animation: fade-up 0.7s ease 0.1s both;
+  }
+
+  h1.hero-title .highlight {
+    background: linear-gradient(90deg, var(--accent-cyan), #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin-bottom: 40px;
+    font-weight: 300;
+    line-height: 1.7;
+    animation: fade-up 0.7s ease 0.2s both;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: fade-up 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 0 30px rgba(0,229,255,0.3), 0 4px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 50px rgba(0,229,255,0.5), 0 8px 30px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: transparent;
+    color: var(--text-primary);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--border-bright);
+    transition: all 0.3s;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(0,229,255,0.06);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fade-up 0.7s ease 0.4s both;
+  }
+
+  .stat-item { text-align: left; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .hero-visual {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 380px;
+    height: 380px;
+    z-index: 1;
+    animation: fade-up 1s ease 0.4s both;
+  }
+
+  .hero-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--border-bright);
+    animation: spin-slow linear infinite;
+  }
+
+  .ring-1 { inset: 0; animation-duration: 20s; }
+  .ring-2 { inset: 30px; animation-duration: 15s; animation-direction: reverse; opacity: 0.6; }
+  .ring-3 { inset: 70px; animation-duration: 10s; opacity: 0.4; }
+
+  @keyframes spin-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  .ring-dot {
+    position: absolute;
+    width: 10px; height: 10px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent-cyan);
+    top: -5px; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hero-center-icon {
+    position: absolute;
+    inset: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(0,229,255,0.1), transparent);
+    border-radius: 50%;
+  }
+
+  .hero-center-icon i {
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── SECTIONS SHARED ─── */
+  section { position: relative; z-index: 1; }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 5%;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--accent-cyan);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 14px;
+    line-height: 1.1;
+  }
+
+  .section-sub {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* ─── SERVICES ─── */
+  #services { background: var(--bg-panel); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .service-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: all 0.35s;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,255,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+
+  .service-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(0,229,255,0.08);
+  }
+
+  .service-card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, rgba(0,229,255,0.12), rgba(59,130,246,0.12));
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    font-size: 1.25rem;
+    color: var(--accent-cyan);
+    transition: all 0.3s;
+  }
+
+  .service-card:hover .card-icon {
+    background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(59,130,246,0.2));
+    box-shadow: 0 0 20px rgba(0,229,255,0.2);
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+
+  .card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .card-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s;
+  }
+
+  .service-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+  /* ─── WHY CHOOSE US ─── */
+  #why {
+    background: linear-gradient(180deg, var(--bg-deep) 0%, #080f1a 100%);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .why-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 24px;
+    transition: all 0.3s;
+  }
+
+  .why-item:hover {
+    border-color: var(--border-bright);
+    background: linear-gradient(135deg, rgba(0,229,255,0.04), var(--bg-card));
+  }
+
+  .why-icon-wrap {
+    width: 44px; height: 44px;
+    min-width: 44px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-cyan);
+    font-size: 1rem;
+  }
+
+  .why-item h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .why-item p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ─── AI SCHEDULING ─── */
+  #ai-scheduling {
+    background: var(--bg-panel);
+    overflow: hidden;
+  }
+
+  .ai-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .ai-steps { margin-top: 0; }
+
+  .ai-step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .ai-step::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 44px;
+    bottom: -28px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--border-bright), transparent);
+  }
+
+  .ai-step:last-child::before { display: none; }
+
+  .step-num {
+    width: 42px; height: 42px;
+    min-width: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(59,130,246,0.15));
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+  }
+
+  .step-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .ai-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  }
+
+  .ai-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #22c55e;
+    animation: blink 2s infinite;
+  }
+
+  .ai-panel-header span {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .ai-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
+  .ai-metric:last-of-type { border-bottom: none; }
+
+  .metric-label { color: var(--text-secondary); }
+
+  .metric-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--accent-cyan);
+  }
+
+  .ai-bar-wrap {
+    margin-top: 20px;
+  }
+
+  .ai-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
+  .ai-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .ai-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+    box-shadow: 0 0 10px rgba(0,229,255,0.4);
+    animation: bar-grow 2s ease-out both;
+  }
+
+  @keyframes bar-grow { from{width:0} }
+
+  /* ─── REVIEWS ─── */
+  #reviews { background: var(--bg-deep); }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .review-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 28px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .review-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  }
+
+  .review-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 18px; right: 24px;
+    font-size: 4rem;
+    color: rgba(0,229,255,0.1);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 14px;
+    color: #fbbf24;
+    font-size: 0.9rem;
+  }
+
+  .review-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 22px;
+  }
+
+  .reviewer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .reviewer-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+
+  .reviewer-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .reviewer-loc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── SERVICE AREAS ─── */
+  #areas { background: var(--bg-panel); }
+
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .area-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    transition: all 0.25s;
+    cursor: default;
+  }
+
+  .area-chip:hover {
+    border-color: var(--border-bright);
+    color: var(--accent-cyan);
+    background: rgba(0,229,255,0.05);
+  }
+
+  .area-chip i { font-size: 0.65rem; color: var(--accent-cyan); }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--bg-deep); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .contact-info { }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px;
+    min-width: 44px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-cyan);
+    font-size: 0.95rem;
+  }
+
+  .contact-detail-text a,
+  .contact-detail-text span {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .contact-detail-text strong {
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .contact-detail-text a { color: var(--text-secondary); text-decoration: none; }
+  .contact-detail-text a:hover { color: var(--accent-cyan); }
+
+  .map-placeholder {
+    margin-top: 30px;
+    height: 200px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(0,229,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .map-placeholder i { font-size: 2rem; color: var(--accent-cyan); opacity: 0.5; z-index: 1; }
+  .map-placeholder span { z-index: 1; }
+
+  .contact-form { }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 7px;
+    letter-spacing: 0.3px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.25s;
+    outline: none;
+    resize: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 3px rgba(0,229,255,0.08);
+  }
+
+  .form-group select { appearance: none; cursor: pointer; }
+
+  .form-group textarea { height: 110px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    box-shadow: 0 0 30px rgba(0,229,255,0.25);
+    transition: all 0.3s;
+    margin-top: 6px;
+  }
+
+  .btn-submit:hover {
+    box-shadow: 0 0 50px rgba(0,229,255,0.45);
+    transform: translateY(-2px);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #050710;
+    border-top: 1px solid var(--border);
+    padding: 60px 5% 30px;
+  }
+
+  .footer-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 50px;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin: 14px 0 22px;
+    max-width: 260px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social-link {
+    width: 36px; height: 36px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .social-link:hover {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    background: rgba(0,229,255,0.06);
+  }
+
+  .footer-col h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+  }
+
+  .footer-links { list-style: none; }
+
+  .footer-links li { margin-bottom: 10px; }
+
+  .footer-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent-cyan); }
+
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 70px; left: 0; right: 0;
+      background: rgba(6,8,16,0.97);
+      backdrop-filter: blur(20px);
+      padding: 20px 5%;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    .hero-visual { display: none; }
+    .hero-content { max-width: 100%; }
+    h1.hero-title { font-size: 2.2rem; }
+    .hero-stats { gap: 24px; }
+
+    .ai-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+  }
+
+  @media (max-width: 520px) {
+    .hero-buttons { flex-direction: column; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <div class="logo-icon"><i class="fas fa-water"></i></div>
+    <div class="logo-text">Rapid<span>Flow</span></div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#ai-scheduling">Smart Tech</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#areas">Areas</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg-orb orb-1"></div>
+  <div class="hero-bg-orb orb-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Melbourne's #1 Smart Plumbing Service
+    </div>
+    <h1 class="hero-title">
+      Fast &amp; Reliable<br>
+      Plumbing Services<br>
+      in <span class="highlight">Melbourne</span>
+    </h1>
+    <p class="hero-sub">
+      AI-optimized service scheduling and 24/7 emergency plumbing — so the right plumber reaches you faster than ever before.
+    </p>
+    <div class="hero-buttons">
+      <a href="tel:1300123456" class="btn-primary">
+        <i class="fas fa-phone"></i> Call Now
+      </a>
+      <a href="#contact" class="btn-secondary">
+        <i class="fas fa-calendar-alt"></i> Book Service
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">24/7</span>
+        <div class="stat-label">Emergency Response</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">45m</span>
+        <div class="stat-label">Avg. Response Time</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2,400+</span>
+        <div class="stat-label">Jobs Completed</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-ring ring-1"><div class="ring-dot"></div></div>
+    <div class="hero-ring ring-2"><div class="ring-dot"></div></div>
+    <div class="hero-ring ring-3"><div class="ring-dot"></div></div>
+    <div class="hero-center-icon">
+      <i class="fas fa-faucet-drip"></i>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title reveal">Professional Plumbing<br>for Every Situation</h2>
+    <p class="section-sub reveal">From burst pipes at 3am to full water heater installs — our licensed team handles it all with speed and precision.</p>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="card-title">Emergency Plumbing</div>
+        <p class="card-desc">Burst pipes, severe leaks, flooding — we dispatch within the hour, 365 days a year. No extra charge for nights or weekends.</p>
+        <div class="card-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <div class="service-card reveal">
+        <div class="card-icon"><i class="fas fa-sink"></i></div>
+        <div class="card-title">Drain Cleaning</div>
+        <p class="card-desc">Blocked drains cleared fast with high-pressure jetting and CCTV camera inspection. We find the cause, not just the symptom.</p>
+        <div class="card-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <div class="service-card reveal">
+        <div class="card-icon"><i class="fas fa-wrench"></i></div>
+        <div class="card-title">Pipe Repair</div>
+        <p class="card-desc">Cracked, corroded, or leaking pipes? We offer no-dig pipe relining and full replacement — minimal disruption to your home.</p>
+        <div class="card-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <div class="service-card reveal">
+        <div class="card-icon"><i class="fas fa-fire-flame-curved"></i></div>
+        <div class="card-title">Water Heater Installation</div>
+        <p class="card-desc">Supply and install gas, electric, and heat pump hot water systems. We'll recommend the right system for your home and budget.</p>
+        <div class="card-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY CHOOSE US ─── -->
+<section id="why">
+  <div class="section-inner">
+    <div class="section-label">Why RapidFlow</div>
+    <h2 class="section-title reveal">The Smarter Choice<br>for Melbourne Homes</h2>
+    <p class="section-sub reveal">We combine old-school trade expertise with modern scheduling tech to deliver plumbing that actually shows up — and actually works.</p>
+
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <div class="why-icon-wrap"><i class="fas fa-clock"></i></div>
+        <div>
+          <h4>24/7 Emergency Service</h4>
+          <p>Plumbing disasters don't wait for business hours. Our on-call crew is ready every night, every weekend, every public holiday.</p>
+        </div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-icon-wrap"><i class="fas fa-shield-halved"></i></div>
+        <div>
+          <h4>Fully Licensed &amp; Insured</h4>
+          <p>All our plumbers hold current Victorian plumbing licences. Every job is backed by full public liability insurance for your peace of mind.</p>
+        </div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-icon-wrap"><i class="fas fa-bolt"></i></div>
+        <div>
+          <h4>Industry-Leading Response</h4>
+          <p>Our AI dispatch system assigns the nearest available plumber the moment you book — average arrival in under 45 minutes across Melbourne.</p>
+        </div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-icon-wrap"><i class="fas fa-tag"></i></div>
+        <div>
+          <h4>Upfront Fixed Pricing</h4>
+          <p>We quote before we start. No hidden call-out fees, no surprise invoices. The price we say is the price you pay.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AI SCHEDULING ─── -->
+<section id="ai-scheduling">
+  <div class="section-inner">
+    <div class="ai-grid">
+      <div>
+        <div class="section-label">Smart Technology</div>
+        <h2 class="section-title reveal">AI-Powered Scheduling<br>That Gets to You Faster</h2>
+        <p class="section-sub reveal" style="margin-bottom:40px">RapidFlow uses intelligent dispatch technology to match every job to the closest, best-suited plumber in real time.</p>
+
+        <div class="ai-steps">
+          <div class="ai-step reveal">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h4>Instant Job Analysis</h4>
+              <p>When you book, our system instantly reads the job type, urgency level, and your exact location.</p>
+            </div>
+          </div>
+          <div class="ai-step reveal">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h4>Smart Plumber Matching</h4>
+              <p>Our algorithm cross-checks all active plumbers by proximity, skill set, and current availability.</p>
+            </div>
+          </div>
+          <div class="ai-step reveal">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h4>Optimised Route Dispatch</h4>
+              <p>The chosen plumber gets a live-optimised route, cutting travel time and getting to you faster.</p>
+            </div>
+          </div>
+          <div class="ai-step reveal">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <h4>Live ETA Updates</h4>
+              <p>You receive real-time SMS updates with your plumber's name, photo, and live ETA countdown.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="ai-panel">
+          <div class="ai-panel-header">
+            <div class="status-dot"></div>
+            <span>RapidFlow Dispatch — Live</span>
+          </div>
+
+          <div class="ai-metric">
+            <span class="metric-label">Active Plumbers Online</span>
+            <span class="metric-value">14</span>
+          </div>
+          <div class="ai-metric">
+            <span class="metric-label">Avg. Response Time Today</span>
+            <span class="metric-value">38 min</span>
+          </div>
+          <div class="ai-metric">
+            <span class="metric-label">Jobs Completed Today</span>
+            <span class="metric-value">23</span>
+          </div>
+          <div class="ai-metric">
+            <span class="metric-label">Next Available Slot</span>
+            <span class="metric-value">Now</span>
+          </div>
+
+          <div class="ai-bar-wrap">
+            <div>
+              <div class="ai-bar-label"><span>Coverage — Inner Melbourne</span><span>97%</span></div>
+              <div class="ai-bar"><div class="ai-bar-fill" style="width:97%"></div></div>
+            </div>
+            <div>
+              <div class="ai-bar-label"><span>Coverage — Outer Suburbs</span><span>84%</span></div>
+              <div class="ai-bar"><div class="ai-bar-fill" style="width:84%"></div></div>
+            </div>
+            <div>
+              <div class="ai-bar-label"><span>Customer Satisfaction</span><span>99%</span></div>
+              <div class="ai-bar"><div class="ai-bar-fill" style="width:99%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REVIEWS ─── -->
+<section id="reviews">
+  <div class="section-inner">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title reveal">Trusted by Melbourne<br>Homeowners</h2>
+    <p class="section-sub reveal">Don't just take our word for it — here's what our customers say.</p>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="review-text">"Burst pipe at 11pm on a Saturday. RapidFlow had a plumber at my door within 40 minutes. He was professional, fixed it fast, and the price was exactly what they quoted. Absolute lifesavers."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">SL</div>
+          <div>
+            <div class="reviewer-name">Sarah L.</div>
+            <div class="reviewer-loc">Richmond, VIC</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="review-text">"Used the online booking and got a confirmation in seconds with a plumber's ETA. The tracking feature is next level. Water heater installed perfectly, clean job, no mess left behind."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">MK</div>
+          <div>
+            <div class="reviewer-name">Marcus K.</div>
+            <div class="reviewer-loc">Fitzroy, VIC</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="review-text">"I've used three different plumbers over the years and RapidFlow is on another level. Clear communication, honest pricing, and they actually showed up on time. Won't use anyone else now."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">JP</div>
+          <div>
+            <div class="reviewer-name">Jenny P.</div>
+            <div class="reviewer-loc">Toorak, VIC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICE AREAS ─── -->
+<section id="areas">
+  <div class="section-inner">
+    <div class="section-label">Coverage</div>
+    <h2 class="section-title reveal">We Service All<br>Melbourne Suburbs</h2>
+    <p class="section-sub reveal">Our network of plumbers covers the full metro area — from the CBD to the outer ring.</p>
+
+    <div class="areas-grid">
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Melbourne CBD</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Richmond</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Fitzroy</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Collingwood</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> South Yarra</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Toorak</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> St Kilda</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Prahran</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Brunswick</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Coburg</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Northcote</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Preston</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Doncaster</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Box Hill</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Glen Waverley</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Ringwood</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Frankston</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Dandenong</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Footscray</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Sunshine</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Werribee</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Essendon</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> Moonee Ponds</div>
+      <div class="area-chip reveal"><i class="fas fa-circle"></i> And more…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title reveal">Book a Plumber<br>in 60 Seconds</h2>
+    <p class="section-sub reveal">Fill in the form and we'll confirm your booking with an ETA — fast.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-detail-text">
+            <strong>Phone</strong>
+            <a href="tel:1300123456">1300 123 456</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            <a href="mailto:hello@rapidflowplumbing.com.au">hello@rapidflowplumbing.com.au</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-location-dot"></i></div>
+          <div class="contact-detail-text">
+            <strong>Location</strong>
+            <span>Serving All of Melbourne, VIC</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-clock"></i></div>
+          <div class="contact-detail-text">
+            <strong>Hours</strong>
+            <span>24 hours / 7 days — always open</span>
+          </div>
+        </div>
+
+        <div class="map-placeholder">
+          <i class="fas fa-map-location-dot"></i>
+          <span>Melbourne, Victoria, Australia</span>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="04XX XXX XXX">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="john@email.com">
+        </div>
+        <div class="form-group">
+          <label>Service Required</label>
+          <select>
+            <option value="">Select a service…</option>
+            <option>Emergency Plumbing</option>
+            <option>Drain Cleaning</option>
+            <option>Pipe Repair</option>
+            <option>Water Heater Installation</option>
+            <option>General Plumbing</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Suburb</label>
+          <input type="text" placeholder="e.g. Richmond">
+        </div>
+        <div class="form-group">
+          <label>Tell Us More (optional)</label>
+          <textarea placeholder="Brief description of the issue…"></textarea>
+        </div>
+        <button class="btn-submit" onclick="handleSubmit()">
+          <i class="fas fa-paper-plane"></i> Send Booking Request
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo" style="text-decoration:none;">
+        <div class="logo-icon"><i class="fas fa-water"></i></div>
+        <div class="logo-text">Rapid<span>Flow</span></div>
+      </a>
+      <p>Melbourne's smart plumbing service. Fast, licensed, and transparent — with AI-optimised dispatch so you're never waiting long.</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-google"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul class="footer-links">
+        <li><a href="#services">Emergency Plumbing</a></li>
+        <li><a href="#services">Drain Cleaning</a></li>
+        <li><a href="#services">Pipe Repair</a></li>
+        <li><a href="#services">Water Heaters</a></li>
+        <li><a href="#services">All Services</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul class="footer-links">
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#ai-scheduling">Our Technology</a></li>
+        <li><a href="#reviews">Testimonials</a></li>
+        <li><a href="#areas">Service Areas</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul class="footer-links">
+        <li><a href="tel:1300123456">1300 123 456</a></li>
+        <li><a href="mailto:hello@rapidflowplumbing.com.au">Email Us</a></li>
+        <li><a href="#contact">Book Online</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 RapidFlow Plumbing Pty Ltd. All rights reserved. VIC Plumbing Licence #VBA12345.</span>
+    <span>Made with <i class="fas fa-heart" style="color:var(--accent-cyan);font-size:0.7rem;"></i> in Melbourne</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Mobile nav toggle
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Close nav on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit() {
+    const btn = document.querySelector('.btn-submit');
+    btn.innerHTML = '<i class="fas fa-check"></i> Request Sent!';
+    btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+    btn.style.boxShadow = '0 0 30px rgba(34,197,94,0.4)';
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Booking Request';
+      btn.style.background = '';
+      btn.style.boxShadow = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
